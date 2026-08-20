@@ -8,11 +8,10 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 }
 
-# Direct Raw URL to your uploaded badge on GitHub
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 
-# Fallback SVG rugby icon
-DEFAULT_RUGBY_ICON = """<svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="6" transform="rotate(-45 12 12)"/><path d="M5 5l14 14"/><path d="M12 8l-2 2"/><path d="M16 12l-2 2"/></svg>"""
+# Clean SVG fallback icon
+DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="6" transform="rotate(-45 12 12)"/><path d="M5 5l14 14"/><path d="M12 8l-2 2"/><path d="M16 12l-2 2"/></svg>"""
 
 def fetch_and_build_table():
     res = requests.get(URL, headers=headers, timeout=15)
@@ -78,17 +77,14 @@ def fetch_and_build_table():
       color: #111111;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
   }
   .badge {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
       object-fit: contain;
-  }
-  .badge-icon {
-      width: 20px;
-      height: 20px;
-      padding: 2px;
+      display: block;
   }
   tr.melksham { 
       background-color: #ffffff !important; 
@@ -132,12 +128,10 @@ def fetch_and_build_table():
         cols = row.find_all(["td", "th"])
         if len(cols) >= 12:
             rank = cols[0].text.strip()
-            
             team_td = cols[1]
             team_name = team_td.text.strip()
             is_melksham = "melksham" in team_name.lower()
             
-            # Use direct GitHub raw link for Fawns badge
             if is_melksham:
                 badge_html = f'<img src="{FAWNS_BADGE_URL}" class="badge" alt="Melksham Fawns" />'
             else:
@@ -147,7 +141,7 @@ def fetch_and_build_table():
                     src = img_tag["src"]
                     if not ("placeholder" in src.lower() or "default" in src.lower() or "icon" in src.lower()):
                         badge_url = urljoin(URL, src)
-                        badge_html = f'<img src="{badge_url}" class="badge" alt="" onerror="this.outerHTML=\'{DEFAULT_RUGBY_ICON}\'" />'
+                        badge_html = f'<img src="{badge_url}" class="badge" alt="" />'
             
             row_class = ' class="melksham"' if is_melksham else ""
             
