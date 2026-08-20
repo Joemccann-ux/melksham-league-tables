@@ -1,12 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote
 
 URL = "https://www.englandrugby.com/fixtures-and-results/search-results?team=128822&competition=2074&division=78211&season=2026-2027#tables"
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 }
+
+# Custom uploaded badge path
+FAWNS_BADGE_PATH = "Fawns%20Badge.png"
+
+# Fallback SVG rugby icon
+DEFAULT_RUGBY_ICON = """<svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="6" transform="rotate(-45 12 12)"/><path d="M5 5l14 14"/><path d="M12 8l-2 2"/><path d="M16 12l-2 2"/></svg>"""
 
 def fetch_and_build_table():
     res = requests.get(URL, headers=headers, timeout=15)
@@ -79,6 +85,11 @@ def fetch_and_build_table():
       height: 24px;
       object-fit: contain;
   }
+  .badge-icon {
+      width: 20px;
+      height: 20px;
+      padding: 2px;
+  }
   tr.melksham { 
       background-color: #ffffff !important; 
       border-left: 4px solid #c30000; 
@@ -122,17 +133,22 @@ def fetch_and_build_table():
         if len(cols) >= 12:
             rank = cols[0].text.strip()
             
-            # Extract team name and badge
             team_td = cols[1]
             team_name = team_td.text.strip()
-            img_tag = team_td.find("img")
-            
-            badge_html = ""
-            if img_tag and img_tag.get("src"):
-                badge_url = urljoin(URL, img_tag["src"])
-                badge_html = f'<img src="{badge_url}" class="badge" alt="" />'
-            
             is_melksham = "melksham" in team_name.lower()
+            
+            # Use custom uploaded badge for Melksham
+            if is_melksham:
+                badge_html = f'<img src="{FAWNS_BADGE_PATH}" class="badge" alt="Melksham Fawns" />'
+            else:
+                img_tag = team_td.find("img")
+                badge_html = DEFAULT_RUGBY_ICON
+                if img_tag and img_tag.get("src"):
+                    src = img_tag["src"]
+                    if not ("placeholder" in src.lower() or "default" in src.lower() or "icon" in src.lower()):
+                        badge_url = urljoin(URL, src)
+                        badge_html = f'<img src="{badge_url}" class="badge" alt="" onerror="this.outerHTML=\'{DEFAULT_RUGBY_ICON}\'" />'
+            
             row_class = ' class="melksham"' if is_melksham else ""
             
             html_output += f"""
