@@ -3,14 +3,67 @@
 <head>
 <meta charset="utf-8">
 <style>
-  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  .wrapper { overflow-x: auto; width: 100%; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: center; }
-  th { background-color: #111; color: #fff; padding: 10px 8px; font-weight: 700; text-transform: uppercase; }
-  td { padding: 10px 8px; border-bottom: 1px solid #eee; }
-  .team-name { text-align: left; font-weight: 600; }
-  tr.melksham { background-color: #fff0f0 !important; border-left: 4px solid #c30000; font-weight: 700; color: #c30000; }
-  .pts { font-weight: 800; }
+  body { 
+      margin: 0; 
+      padding: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; 
+      color: #222;
+      background: transparent;
+  }
+  .wrapper { 
+      overflow-x: auto; 
+      width: 100%; 
+      border: 1px solid #e5e5e5; 
+      border-radius: 6px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      background: #ffffff;
+  }
+  table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      font-size: 14px; 
+      text-align: center; 
+  }
+  thead {
+      background-color: #111111;
+  }
+  th { 
+      color: #ffffff; 
+      padding: 12px 10px; 
+      font-size: 13px;
+      font-weight: 800; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #e5e5e5;
+  }
+  td { 
+      padding: 12px 10px; 
+      border-bottom: 1px solid #eeeeee; 
+      color: #333333;
+  }
+  tr:last-child td {
+      border-bottom: none;
+  }
+  .team-name { 
+      text-align: left; 
+      font-weight: 700; 
+      color: #111111;
+  }
+  tr.melksham { 
+      background-color: #fff0f0 !important; 
+      border-left: 4px solid #c30000; 
+  }
+  tr.melksham td { 
+      font-weight: 800; 
+      color: #c30000 !important; 
+  }
+  tr.melksham .team-name {
+      color: #c30000 !important;
+  }
+  .pts { 
+      font-weight: 800; 
+      color: #111111;
+  }
 </style>
 </head>
 <body>
