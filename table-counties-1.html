@@ -5,7 +5,7 @@
 <style>
   body { 
       margin: 0; 
-      padding: 2px;
+      padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; 
       color: #222;
       background: transparent;
@@ -14,48 +14,56 @@
       overflow-x: auto; 
       width: 100%; 
       border: 1px solid #e5e5e5; 
-      border-radius: 6px; 
+      border-radius: 4px; 
       box-shadow: 0 2px 5px rgba(0,0,0,0.03);
       background: #ffffff;
   }
   table { 
       width: 100%; 
       border-collapse: collapse; 
-      font-size: 14px; 
+      font-size: 13px; 
       text-align: center; 
   }
   thead {
-      background-color: #111111;
+      background-color: #ffffff;
+      border-bottom: 2px solid #e5e5e5;
   }
   th { 
-      color: #ffffff; 
-      padding: 12px 10px; 
-      font-size: 13px;
+      color: #111111; 
+      padding: 12px 8px; 
+      font-size: 12px;
       font-weight: 800; 
       text-transform: uppercase; 
       letter-spacing: 0.5px;
-      border-bottom: 2px solid #e5e5e5;
   }
   td { 
-      padding: 12px 10px; 
-      border-bottom: 1px solid #eeeeee; 
+      padding: 10px 8px; 
+      border-bottom: 1px solid #e5e5e5; 
       color: #333333;
+      vertical-align: middle;
   }
   tr:last-child td {
       border-bottom: none;
   }
-  .team-name { 
+  .team-cell { 
       text-align: left; 
       font-weight: 700; 
       color: #111111;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+  .badge {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
   }
   tr.melksham { 
-      background-color: #fff0f0 !important; 
+      background-color: #ffffff !important; 
       border-left: 4px solid #c30000; 
   }
   tr.melksham td { 
       font-weight: 800; 
-      color: #c30000 !important; 
   }
   tr.melksham .team-name {
       color: #c30000 !important;
@@ -72,7 +80,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th style="text-align:left;">Team</th>
+        <th style="text-align:left; padding-left: 12px;">Team</th>
         <th>P</th>
         <th>W</th>
         <th>D</th>
@@ -89,7 +97,12 @@
 
       <tr>
         <td>1</td>
-        <td class="team-name">Chippenham RFC U16Girls</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/126902.png" class="badge" alt="" />
+            <span class="team-name">Chippenham RFC U16Girls</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
@@ -103,7 +116,12 @@
       </tr>
       <tr>
         <td>2</td>
-        <td class="team-name">Cotswold Lionesses</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/127527.png" class="badge" alt="" />
+            <span class="team-name">Cotswold Lionesses</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
@@ -117,7 +135,12 @@
       </tr>
       <tr class="melksham">
         <td>3</td>
-        <td class="team-name">Melksham Fawns RFC U16W</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/128822.png" class="badge" alt="" />
+            <span class="team-name">Melksham Fawns RFC U16W</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
@@ -131,7 +154,12 @@
       </tr>
       <tr>
         <td>4</td>
-        <td class="team-name">Royal Wootton Bassett RFC U16W</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/126484.png" class="badge" alt="" />
+            <span class="team-name">Royal Wootton Bassett RFC U16W</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
@@ -145,7 +173,12 @@
       </tr>
       <tr>
         <td>5</td>
-        <td class="team-name">Tetbury RFC U16W</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/128570.png" class="badge" alt="" />
+            <span class="team-name">Tetbury RFC U16W</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
@@ -159,7 +192,12 @@
       </tr>
       <tr>
         <td>6</td>
-        <td class="team-name">Walcats U16G</td>
+        <td>
+          <div class="team-cell">
+            <img src="https://images.englandrugby.com/club_images/128769.png" class="badge" alt="" />
+            <span class="team-name">Walcats U16G</span>
+          </div>
+        </td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
