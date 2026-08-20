@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 
 URL = "https://www.englandrugby.com/fixtures-and-results/search-results?team=128822&competition=2074&division=78211&season=2026-2027#tables"
 
@@ -25,7 +26,7 @@ def fetch_and_build_table():
 <style>
   body { 
       margin: 0; 
-      padding: 2px;
+      padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; 
       color: #222;
       background: transparent;
@@ -34,48 +35,56 @@ def fetch_and_build_table():
       overflow-x: auto; 
       width: 100%; 
       border: 1px solid #e5e5e5; 
-      border-radius: 6px; 
+      border-radius: 4px; 
       box-shadow: 0 2px 5px rgba(0,0,0,0.03);
       background: #ffffff;
   }
   table { 
       width: 100%; 
       border-collapse: collapse; 
-      font-size: 14px; 
+      font-size: 13px; 
       text-align: center; 
   }
   thead {
-      background-color: #111111;
+      background-color: #ffffff;
+      border-bottom: 2px solid #e5e5e5;
   }
   th { 
-      color: #ffffff; 
-      padding: 12px 10px; 
-      font-size: 13px;
+      color: #111111; 
+      padding: 12px 8px; 
+      font-size: 12px;
       font-weight: 800; 
       text-transform: uppercase; 
       letter-spacing: 0.5px;
-      border-bottom: 2px solid #e5e5e5;
   }
   td { 
-      padding: 12px 10px; 
-      border-bottom: 1px solid #eeeeee; 
+      padding: 10px 8px; 
+      border-bottom: 1px solid #e5e5e5; 
       color: #333333;
+      vertical-align: middle;
   }
   tr:last-child td {
       border-bottom: none;
   }
-  .team-name { 
+  .team-cell { 
       text-align: left; 
       font-weight: 700; 
       color: #111111;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+  .badge {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
   }
   tr.melksham { 
-      background-color: #fff0f0 !important; 
+      background-color: #ffffff !important; 
       border-left: 4px solid #c30000; 
   }
   tr.melksham td { 
       font-weight: 800; 
-      color: #c30000 !important; 
   }
   tr.melksham .team-name {
       color: #c30000 !important;
@@ -92,7 +101,7 @@ def fetch_and_build_table():
     <thead>
       <tr>
         <th>#</th>
-        <th style="text-align:left;">Team</th>
+        <th style="text-align:left; padding-left: 12px;">Team</th>
         <th>P</th>
         <th>W</th>
         <th>D</th>
@@ -109,25 +118,42 @@ def fetch_and_build_table():
 """
 
     for row in rows[1:]:
-        cols = [td.text.strip() for td in row.find_all(["td", "th"])]
+        cols = row.find_all(["td", "th"])
         if len(cols) >= 12:
-            is_melksham = "melksham" in cols[1].lower()
+            rank = cols[0].text.strip()
+            
+            # Extract team name and badge
+            team_td = cols[1]
+            team_name = team_td.text.strip()
+            img_tag = team_td.find("img")
+            
+            badge_html = ""
+            if img_tag and img_tag.get("src"):
+                badge_url = urljoin(URL, img_tag["src"])
+                badge_html = f'<img src="{badge_url}" class="badge" alt="" />'
+            
+            is_melksham = "melksham" in team_name.lower()
             row_class = ' class="melksham"' if is_melksham else ""
             
             html_output += f"""
       <tr{row_class}>
-        <td>{cols[0]}</td>
-        <td class="team-name">{cols[1]}</td>
-        <td>{cols[2]}</td>
-        <td>{cols[3]}</td>
-        <td>{cols[4]}</td>
-        <td>{cols[5]}</td>
-        <td>{cols[6]}</td>
-        <td>{cols[7]}</td>
-        <td>{cols[8]}</td>
-        <td>{cols[9]}</td>
-        <td>{cols[10]}</td>
-        <td class="pts">{cols[11]}</td>
+        <td>{rank}</td>
+        <td>
+          <div class="team-cell">
+            {badge_html}
+            <span class="team-name">{team_name}</span>
+          </div>
+        </td>
+        <td>{cols[2].text.strip()}</td>
+        <td>{cols[3].text.strip()}</td>
+        <td>{cols[4].text.strip()}</td>
+        <td>{cols[5].text.strip()}</td>
+        <td>{cols[6].text.strip()}</td>
+        <td>{cols[7].text.strip()}</td>
+        <td>{cols[8].text.strip()}</td>
+        <td>{cols[9].text.strip()}</td>
+        <td>{cols[10].text.strip()}</td>
+        <td class="pts">{cols[11].text.strip()}</td>
       </tr>"""
 
     html_output += """
@@ -140,8 +166,6 @@ def fetch_and_build_table():
 
     with open("table-counties-1.html", "w", encoding="utf-8") as f:
         f.write(html_output)
-        
-    print("Table updated successfully.")
 
 if __name__ == "__main__":
     fetch_and_build_table()
