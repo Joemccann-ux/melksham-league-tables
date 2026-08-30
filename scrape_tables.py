@@ -1,4 +1,7 @@
 import requests
+import json
+import re
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 HEADERS = {
@@ -7,8 +10,8 @@ HEADERS = {
 
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>"""
+WOMEN_ICS_URL = "https://ics.ecal.com/ecal-sub/6a946df25b80e60002dff5a3/RFU.ics"
 
-# DIVISIONS CONFIGURATION
 CONFIGS = [
     {
         "name": "U16 Fawns",
@@ -108,19 +111,59 @@ def generate_html(table_rows_html, title_name):
 </body>
 </html>"""
 
+def parse_ics_fixtures():
+    print("Fetching and parsing Women ICS Calendar...")
+    try:
+        res = requests.get(WOMEN_ICS_URL, headers=HEADERS, timeout=15)
+        text = res.text
+        events = []
+        blocks = text.split("BEGIN:VEVENT")
+        
+        for block in blocks[1:]:
+            block_content = block.split("END:VEVENT")[0]
+            summary_m = re.search(r"SUMMARY:(.*)", block_content)
+            start_m = re.search(r"DTSTART.*:(.*)", block_content)
+            location_m = re.search(r"LOCATION:(.*)", block_content)
+            
+            if summary_m and start_m:
+                title = summary_m.group(1).strip().replace("\\,", ",")
+                dt_str = start_m.group(1).strip().replace("Z", "")
+                location = location_m.group(1).strip().replace("\\,", ",") if location_m else "TBC Ground"
+                
+                # Format ISO Timestamp
+                try:
+                    dt_obj = datetime.strptime(dt_str[:15], "%Y%m%dT%H%M%S")
+                    iso_date = dt_obj.isoformat() + "Z"
+                except Exception:
+                    iso_date = dt_str
+                    
+                events.append({
+                    "title": title,
+                    "date": iso_date,
+                    "location": location
+                })
+                
+        # Sort events by date
+        events.sort(key=lambda x: x["date"])
+        
+        with open("fixtures-women.json", "w", encoding="utf-8") as f:
+            json.dump(events, f, indent=2)
+        print("Successfully generated fixtures-women.json")
+        
+    except Exception as e:
+        print(f"Error fetching ICS calendar: {e}")
+
 def scrape_and_build():
     for config in CONFIGS:
         print(f"Scraping {config['name']}...")
         try:
             res = requests.get(config["url"], headers=HEADERS, timeout=15)
             soup = BeautifulSoup(res.text, "html.parser")
-            
-            # Locate table element
             table = soup.find("table")
             
             rows_out = []
             if table:
-                rows = table.find_all("tr")[1:] # Skip header row
+                rows = table.find_all("tr")[1:]
                 for row in rows:
                     cols = row.find_all(["td", "th"])
                     if len(cols) >= 10:
@@ -148,3 +191,4 @@ def scrape_and_build():
 
 if __name__ == "__main__":
     scrape_and_build()
+    parse_ics_fixtures()
