@@ -130,10 +130,18 @@ def parse_ics_fixtures():
                 dt_str = start_m.group(1).strip().replace("Z", "")
                 location = location_m.group(1).strip().replace("\\,", ",") if location_m else "TBC Ground"
                 
-                # Format ISO Timestamp
+                # Exclude promo and non-match entries
+                if "Welcome to RFU" in title or "ECAL" in title:
+                    continue
+
+                # Format clean ISO timestamp (YYYY-MM-DDTHH:MM:SS)
                 try:
-                    dt_obj = datetime.strptime(dt_str[:15], "%Y%m%dT%H%M%S")
-                    iso_date = dt_obj.isoformat() + "Z"
+                    digits = re.sub(r'[^0-9]', '', dt_str)
+                    y, m, d = digits[0:4], digits[4:6], digits[6:8]
+                    hh = digits[8:10] if len(digits) >= 10 else "14"
+                    mm = digits[10:12] if len(digits) >= 12 else "00"
+                    ss = digits[12:14] if len(digits) >= 14 else "00"
+                    iso_date = f"{y}-{m}-{d}T{hh}:{mm}:{ss}"
                 except Exception:
                     iso_date = dt_str
                     
@@ -143,7 +151,7 @@ def parse_ics_fixtures():
                     "location": location
                 })
                 
-        # Sort events by date
+        # Sort chronologically
         events.sort(key=lambda x: x["date"])
         
         with open("fixtures-women.json", "w", encoding="utf-8") as f:
