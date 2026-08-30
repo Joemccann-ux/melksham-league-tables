@@ -1,218 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<style>
-  body { 
-      margin: 0; 
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; 
-      color: #222;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>U16 Fawns Standings</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: transparent;
-  }
-  .wrapper { 
-      overflow-x: auto; 
-      width: 100%; 
-      border: 1px solid #e5e5e5; 
-      border-radius: 4px; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      color: #111111;
+      margin: 0; padding: 0;
+    }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
       background: #ffffff;
-  }
-  table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      font-size: 13px; 
-      text-align: center; 
-  }
-  thead {
-      background-color: #ffffff;
-      border-bottom: 2px solid #e5e5e5;
-  }
-  th { 
-      color: #111111; 
-      padding: 12px 8px; 
-      font-size: 12px;
-      font-weight: 800; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px;
-  }
-  td { 
-      padding: 10px 8px; 
-      border-bottom: 1px solid #e5e5e5; 
-      color: #333333;
+      border-radius: 8px;
+      border: 1px solid #e5e5e5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 13px;
+    }
+    thead {
+      background-color: #0d0e12;
+      color: #ffffff;
+    }
+    th {
+      padding: 12px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 2px solid #c30000;
+    }
+    th.team-col, td.team-col {
+      text-align: left;
+      padding-left: 14px;
+    }
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eeeeee;
+      font-weight: 600;
+    }
+    tr:nth-child(even) { background-color: #f9f9fb; }
+    tr.highlight-melksham {
+      background-color: rgba(195, 0, 0, 0.08) !important;
+      font-weight: 800;
+    }
+    tr.highlight-melksham td { color: #c30000; }
+    .badge {
+      width: 20px; height: 22px;
       vertical-align: middle;
-  }
-  tr:last-child td {
-      border-bottom: none;
-  }
-  .team-cell { 
-      text-align: left; 
-      font-weight: 700; 
-      color: #111111;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-  }
-  .badge {
-      width: 28px;
-      height: 28px;
-      min-width: 28px;
+      margin-right: 8px;
       object-fit: contain;
-      display: block;
-  }
-  tr.melksham { 
-      background-color: #ffffff !important; 
-      border-left: 4px solid #c30000; 
-  }
-  tr.melksham td { 
-      font-weight: 800; 
-  }
-  tr.melksham .team-name {
-      color: #c30000 !important;
-  }
-  .pts { 
-      font-weight: 800; 
-      color: #111111;
-  }
-</style>
+    }
+  </style>
 </head>
 <body>
-<div class="wrapper">
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th style="text-align:left; padding-left: 12px;">Team</th>
-        <th>P</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>PF</th>
-        <th>PA</th>
-        <th>+/-</th>
-        <th>TB</th>
-        <th>LB</th>
-        <th>Pts</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr>
-        <td>1</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://images.englandrugby.com/club_images/126902.png" class="badge" alt="" />
-            <span class="team-name">Chippenham RFC U16Girls</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://images.englandrugby.com/club_images/127527.png" class="badge" alt="" />
-            <span class="team-name">Cotswold Lionesses</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-      <tr class="melksham">
-        <td>3</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png" class="badge" alt="Melksham Fawns" />
-            <span class="team-name">Melksham Fawns RFC U16W</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://images.englandrugby.com/club_images/126484.png" class="badge" alt="" />
-            <span class="team-name">Royal Wootton Bassett RFC U16W</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://images.englandrugby.com/club_images/128570.png" class="badge" alt="" />
-            <span class="team-name">Tetbury RFC U16W</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>
-          <div class="team-cell">
-            <img src="https://images.englandrugby.com/club_images/128769.png" class="badge" alt="" />
-            <span class="team-name">Walcats U16G</span>
-          </div>
-        </td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td class="pts">0</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th class="team-col">TEAM</th>
+          <th>P</th><th>W</th><th>D</th><th>L</th>
+          <th>PF</th><th>PA</th><th>+/-</th><th>TB</th><th>LB</th><th>PTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="team-col"><svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> Chippenham RFC U16Girls</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>2</td><td class="team-col"><svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> Cotswold Lionesses</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr class="highlight-melksham"><td>3</td><td class="team-col"><img class="badge" src="https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png" alt=""> Melksham Fawns RFC U16W</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>4</td><td class="team-col"><svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> Royal Wootton Bassett RFC U16W</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>5</td><td class="team-col"><svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> Tetbury RFC U16W</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>6</td><td class="team-col"><svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> Walcats U16G</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
