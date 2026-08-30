@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
@@ -9,7 +8,6 @@ HEADERS = {
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>"""
 
-# DIVISIONS CONFIGURATION
 CONFIGS = [
     {
         "name": "U16 Fawns",
@@ -18,7 +16,7 @@ CONFIGS = [
     },
     {
         "name": "U18 Academy",
-        "url": "https://www.englandrugby.com/fixtures-and-results/search-results?team=130920&competition=2509&division=78155&season=2026-2027#tables",
+        "url": "https://www.englandrugby.com/fixtures-and-results/search-results?team=130920&check_logged_in=1&competition=2509&division=78155&season=2026-2027#tables",
         "output_file": "table-u18.html"
     }
 ]
@@ -135,7 +133,7 @@ def scrape_and_build():
             final_html = generate_html("\n".join(rows_out), config["name"])
             with open(config["output_file"], "w", encoding="utf-8") as f:
                 f.write(final_html)
-            print(f"Successfully wrote {config['output_file']}")
+            print(f"Successfully created {config['output_file']}")
             
         except Exception as e:
             print(f"Error scraping {config['name']}: {e}")
