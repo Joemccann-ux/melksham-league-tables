@@ -19,6 +19,11 @@ CONFIGS = [
         "name": "U18 Academy",
         "url": "https://www.englandrugby.com/fixtures-and-results/search-results?team=130920&competition=2509&division=78155&season=2026-2027#tables",
         "output_file": "table-u18.html"
+    },
+    {
+        "name": "Melksham Women 1XV",
+        "url": "https://www.englandrugby.com/fixtures-and-results/search-results?team=13650&competition=1782&division=76187&season=2026-2027#tables",
+        "output_file": "table-women.html"
     }
 ]
 
@@ -59,7 +64,7 @@ def generate_html(table_rows_html, title_name):
       font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
-      border-bottom: 2px solid #c30000;
+      border-bottom: 2px solid #e6007e;
     }}
     th.team-col, td.team-col {{
       text-align: left;
@@ -72,10 +77,10 @@ def generate_html(table_rows_html, title_name):
     }}
     tr:nth-child(even) {{ background-color: #f9f9fb; }}
     tr.highlight-melksham {{
-      background-color: rgba(195, 0, 0, 0.08) !important;
+      background-color: rgba(230, 0, 126, 0.08) !important;
       font-weight: 800;
     }}
-    tr.highlight-melksham td {{ color: #c30000; }}
+    tr.highlight-melksham td {{ color: #e6007e; }}
     .badge {{
       width: 20px; height: 22px;
       vertical-align: middle;
