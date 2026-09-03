@@ -140,7 +140,7 @@ def scrape_and_build():
                             else:
                                 badge_img = DEFAULT_RUGBY_ICON
 
-                        # ORIGINAL UNTOUCHED LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
+                        # UNTOUCHED ORIGINAL LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
                         else:
                             badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
 
