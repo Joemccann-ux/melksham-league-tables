@@ -7,6 +7,8 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 }
 
+# Badge Overrides
+MENS_BADGE_URL = "https://melkshamnews.com/wp-content/uploads/2026/09/Badge-RC-1.png"
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>"""
 
@@ -126,19 +128,43 @@ def scrape_and_build():
                 for row in rows:
                     cols = row.find_all(["td", "th"])
                     if len(cols) >= 10:
-                        team_text = cols[1].get_text(strip=True)
+                        team_cell = cols[1]
+                        team_text = team_cell.get_text(strip=True)
                         is_melksham = "melksham" in team_text.lower()
                         cls = ' class="highlight-melksham"' if is_melksham else ''
-                        badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
-                        cells_td = [f"<td>{cols[0].get_text(strip=True)}</td>", f'<td class="team-col">{badge_img} {team_text}</td>']
+
+                        # MENS 1XV ISOLATED LOGIC
+                        if config["name"] == "Melksham Mens 1st XV":
+                            rfu_img = team_cell.find("img")
+                            if is_melksham:
+                                badge_img = f'<img class="badge" src="{MENS_BADGE_URL}" alt="Melksham Badge">'
+                            elif rfu_img and rfu_img.get("src"):
+                                badge_src = rfu_img["src"]
+                                if not badge_src.startswith("http"):
+                                    badge_src = "https://www.englandrugby.com" + badge_src
+                                badge_img = f'<img class="badge" src="{badge_src}" alt="{team_text} Badge">'
+                            else:
+                                badge_img = DEFAULT_RUGBY_ICON
+
+                        # ORIGINAL UNTOUCHED LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
+                        else:
+                            badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
+
+                        cells_td = [
+                            f"<td>{cols[0].get_text(strip=True)}</td>",
+                            f'<td class="team-col">{badge_img} {team_text}</td>'
+                        ]
+
                         for c in cols[2:]:
                             cells_td.append(f"<td>{c.get_text(strip=True)}</td>")
+
                         rows_out.append(f"<tr{cls}>" + "".join(cells_td) + "</tr>")
-            
+
             final_html = generate_html("\n".join(rows_out), config["name"])
             with open(config["output_file"], "w", encoding="utf-8") as f:
                 f.write(final_html)
             print(f"Successfully generated {config['output_file']}")
+
         except Exception as e:
             print(f"Error scraping {config['name']}: {e}")
 
