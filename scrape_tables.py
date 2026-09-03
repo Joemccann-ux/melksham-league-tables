@@ -7,14 +7,17 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 }
 
-# Badge Overrides
-MENS_BADGE_URL = "https://melkshamnews.com/wp-content/uploads/2026/09/Badge-RC-1.png"
+# Raw GitHub Badge URLs
+MENS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Mens%20Badge.png"
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>"""
 
-# Direct Map for Mens Division Badges
+# Direct Map for Mens Opponent Badges
 MENS_TEAM_BADGES = {
     "melksham": MENS_BADGE_URL,
+    "chippenham": "https://www.englandrugby.com/assets/images/badges/clubs/4666.png",
+    "combe down": "https://www.englandrugby.com/assets/images/badges/clubs/4726.png",
+    "corsham": "https://www.englandrugby.com/assets/images/badges/clubs/4751.png",
     "devizes": "https://www.englandrugby.com/assets/images/badges/clubs/4859.png",
     "dorchester": "https://www.englandrugby.com/assets/images/badges/clubs/4873.png",
     "frome": "https://www.englandrugby.com/assets/images/badges/clubs/5053.png",
@@ -24,7 +27,6 @@ MENS_TEAM_BADGES = {
     "swanage and wareham": "https://www.englandrugby.com/assets/images/badges/clubs/6290.png",
     "trowbridge": "https://www.englandrugby.com/assets/images/badges/clubs/6429.png",
     "weymouth & portland": "https://www.englandrugby.com/assets/images/badges/clubs/6659.png",
-    "weymouth and portland": "https://www.englandrugby.com/assets/images/badges/clubs/6659.png",
     "wimborne": "https://www.englandrugby.com/assets/images/badges/clubs/6703.png",
     "yeovil": "https://www.englandrugby.com/assets/images/badges/clubs/6781.png"
 }
@@ -150,7 +152,7 @@ def scrape_and_build():
                         is_melksham = "melksham" in team_text.lower()
                         cls = ' class="highlight-melksham"' if is_melksham else ''
 
-                        # MENS 1XV BADGE LOGIC
+                        # MENS 1XV BADGE MAPPING
                         if config["name"] == "Melksham Mens 1st XV":
                             matched_badge = None
                             for team_key, badge_url in MENS_TEAM_BADGES.items():
@@ -163,7 +165,7 @@ def scrape_and_build():
                             else:
                                 badge_img = DEFAULT_RUGBY_ICON
 
-                        # UNTOUCHED ORIGINAL LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
+                        # ORIGINAL UNTOUCHED LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
                         else:
                             badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
 
