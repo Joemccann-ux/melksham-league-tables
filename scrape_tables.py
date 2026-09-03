@@ -12,6 +12,23 @@ MENS_BADGE_URL = "https://melkshamnews.com/wp-content/uploads/2026/09/Badge-RC-1
 FAWNS_BADGE_URL = "https://raw.githubusercontent.com/Joemccann-ux/melksham-league-tables/main/Fawns%20Badge.png"
 DEFAULT_RUGBY_ICON = """<svg class="badge" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>"""
 
+# Direct Map for Mens Division Badges
+MENS_TEAM_BADGES = {
+    "melksham": MENS_BADGE_URL,
+    "devizes": "https://www.englandrugby.com/assets/images/badges/clubs/4859.png",
+    "dorchester": "https://www.englandrugby.com/assets/images/badges/clubs/4873.png",
+    "frome": "https://www.englandrugby.com/assets/images/badges/clubs/5053.png",
+    "north dorset": "https://www.englandrugby.com/assets/images/badges/clubs/5661.png",
+    "salisbury": "https://www.englandrugby.com/assets/images/badges/clubs/6059.png",
+    "swanage & wareham": "https://www.englandrugby.com/assets/images/badges/clubs/6290.png",
+    "swanage and wareham": "https://www.englandrugby.com/assets/images/badges/clubs/6290.png",
+    "trowbridge": "https://www.englandrugby.com/assets/images/badges/clubs/6429.png",
+    "weymouth & portland": "https://www.englandrugby.com/assets/images/badges/clubs/6659.png",
+    "weymouth and portland": "https://www.englandrugby.com/assets/images/badges/clubs/6659.png",
+    "wimborne": "https://www.englandrugby.com/assets/images/badges/clubs/6703.png",
+    "yeovil": "https://www.englandrugby.com/assets/images/badges/clubs/6781.png"
+}
+
 WOMEN_ICS_URL = "https://ics.ecal.com/ecal-sub/6a946df25b80e60002dff5a3/RFU.ics"
 MENS_ICS_URL = "https://ics.ecal.com/ecal-sub/6a5909492e368d00021229e9/RFU.ics"
 
@@ -133,20 +150,20 @@ def scrape_and_build():
                         is_melksham = "melksham" in team_text.lower()
                         cls = ' class="highlight-melksham"' if is_melksham else ''
 
-                        # MENS 1XV ISOLATED LOGIC
+                        # MENS 1XV BADGE LOGIC
                         if config["name"] == "Melksham Mens 1st XV":
-                            rfu_img = team_cell.find("img")
-                            if is_melksham:
-                                badge_img = f'<img class="badge" src="{MENS_BADGE_URL}" alt="Melksham Badge">'
-                            elif rfu_img and rfu_img.get("src"):
-                                badge_src = rfu_img["src"]
-                                if not badge_src.startswith("http"):
-                                    badge_src = "https://www.englandrugby.com" + badge_src
-                                badge_img = f'<img class="badge" src="{badge_src}" alt="{team_text} Badge">'
+                            matched_badge = None
+                            for team_key, badge_url in MENS_TEAM_BADGES.items():
+                                if team_key in team_text.lower():
+                                    matched_badge = badge_url
+                                    break
+                            
+                            if matched_badge:
+                                badge_img = f'<img class="badge" src="{matched_badge}" alt="{team_text} Badge">'
                             else:
                                 badge_img = DEFAULT_RUGBY_ICON
 
-                        # ORIGINAL UNTOUCHED LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
+                        # UNTOUCHED ORIGINAL LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
                         else:
                             badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
 
