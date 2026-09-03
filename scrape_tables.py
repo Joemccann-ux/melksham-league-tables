@@ -133,14 +133,11 @@ def scrape_and_build():
                         is_melksham = "melksham" in team_text.lower()
                         cls = ' class="highlight-melksham"' if is_melksham else ''
 
-                        # MENS 1XV BADGE LOGIC
                         if config["name"] == "Melksham Mens 1st XV":
                             if is_melksham:
                                 badge_img = f'<img class="badge" src="{MENS_BADGE_URL}" alt="Melksham Badge">'
                             else:
                                 badge_img = DEFAULT_RUGBY_ICON
-
-                        # UNTOUCHED ORIGINAL LOGIC FOR WOMEN, U16 FAWNS & ACADEMY
                         else:
                             badge_img = f'<img class="badge" src="{FAWNS_BADGE_URL}" alt="">' if is_melksham else DEFAULT_RUGBY_ICON
 
